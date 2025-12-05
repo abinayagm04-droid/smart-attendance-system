@@ -1,0 +1,26 @@
+{% extends 'school/base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center my-3">
+  <h2>Classrooms</h2>
+  <a class="btn btn-success" href="{% url 'school:classroom_create' %}">+ Add Classroom</a>
+</div>
+
+<table class="table table-striped">
+  <thead><tr><th>Name</th><th>Teacher</th><th>Students</th><th>Actions</th></tr></thead>
+  <tbody>
+    {% for c in classrooms %}
+      <tr>
+        <td>{{ c.name }}</td>
+        <td>{% if c.teacher %}{{ c.teacher.username }}{% else %}-{% endif %}</td>
+        <td>{{ c.students.count }}</td>
+        <td>
+          <a class="btn btn-sm btn-outline-primary" href="{% url 'school:student_add' c.pk %}">Add Student</a>
+          <a class="btn btn-sm btn-outline-secondary" href="{% url 'school:mark_attendance' c.pk %}">Mark Attendance</a>
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="4">No classrooms yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
